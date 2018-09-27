@@ -3,3 +3,9 @@
 ################################################################################
 
 /.vs/VSWorkspaceState.json
+/.vs/swagger-codegen-demo/
+/.vs/slnx.sqlite
+/.vs/ProjectSettings.json
+/.vs/config
+
+/gen/
