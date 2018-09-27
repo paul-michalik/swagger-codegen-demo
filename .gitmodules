@@ -1,0 +1,3 @@
+[submodule "openapi/routing-api"]
+	path = openapi/routing-api
+	url = https://github.com/HansJoergPeter/routing-api.git
