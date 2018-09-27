@@ -1,9 +1,7 @@
 @echo off
 
-call "%~dp0abspath.bat" "%~dp0..\.."
+call "%~dp0path.bat" "%~dp0..\..\.."
 
 setlocal
-    call "%AbsPath%/scripts/windows/swagger-codegen-cli-adapter.bat" petstore http://petstore.swagger.io/v2/swagger.json cpprest
-    call "%AbsPath%/scripts/windows/swagger-codegen-cli-adapter.bat" petstore http://petstore.swagger.io/v2/swagger.json go
-    call "%AbsPath%/scripts/windows/swagger-codegen-cli-adapter.bat" petstore http://petstore.swagger.io/v2/swagger.json csharp-dotnet2
+    call "%AbsPath%/scripts/windows/detail/swagger-codegen-cli.bat" generate -i "http://petstore.swagger.io/v2/swagger.json" -l cpprest -o "%LocPath%/gen/cpprest/petstore"
 endlocal
