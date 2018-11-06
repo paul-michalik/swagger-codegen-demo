@@ -1,3 +1,6 @@
 [submodule "openapi/routing-api"]
 	path = openapi/routing-api
 	url = https://github.com/HansJoergPeter/routing-api.git
+[submodule "openapi/stargazer-open-api"]
+	path = openapi/stargazer-open-api
+	url = https://github.com/paul-michalik/stargazer-open-api.git
