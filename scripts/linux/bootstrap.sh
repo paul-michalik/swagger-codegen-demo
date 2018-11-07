@@ -108,10 +108,10 @@ if [[ ${EUID} -ne 0 ]]; then
    quit 2 "${0} must be run as root"
 fi
 
-#install_compiler $gcc_version
+install_compiler $gcc_version
 install_cmake $cmake_dir $cmake_version
-#install_git
-#install_vcpkg $vcpkg_dir
-#install_tools
+install_git
+install_vcpkg $vcpkg_dir
+install_tools
 
-#vcpkg_install $vcpkg_dir $vcpkg_modules
+vcpkg_install $vcpkg_dir $vcpkg_modules
