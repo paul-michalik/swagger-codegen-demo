@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Setup local variables
-gcc_version=7
-cmake_version=3.10.1
-cmake_dir=${HOME}/.cmake
-vcpkg_dir=${HOME}/.vcpkg
-vcpkg_modules='cpprestsdk boost-test'
+GCC_VERSION=7
+CMAKE_VERSION=3.10.1
+CMAKE_DIR=${HOME}/.cmake
+VCPKG_DIR=${HOME}/.vcpkg
+VCPKG_MODULES='cpprestsdk boost-test boost-uuid'
 
 # ----------------------------------------------------------------------------------
 
@@ -33,7 +33,7 @@ function install_compiler()
 # Install  given cmake version to given path
 function install_cmake()
 {
-    # sudo apt-get install cmake does not, by itself, ever upgrade cmake to a newer version
+	# sudo apt-get install cmake does not, by itself, ever upgrade cmake to a newer version
 	# See https://askubuntu.com/questions/355565/how-do-i-install-the-latest-version-of-cmake-from-the-command-line
 	v_installed="$(cmake --version | grep -Po '\d{1,4}.\d{1,4}.\d{1,4}')" 
 	if [[ ${v_installed} != $2 ]]; then
@@ -64,8 +64,8 @@ function install_vcpkg()
 {
 	if [[ ! -d $1 ]]; then
 		# Install vcpkg
-		echo "vcpkg not found, installing at $vcpkg_dir ..."
-		sudo -u ${SUDO_USER} git clone --recursive https://github.com/Microsoft/vcpkg.git $vcpkg_dir
+		echo "vcpkg not found, installing at $VCPKG_DIR ..."
+		sudo -u ${SUDO_USER} git clone --recursive https://github.com/Microsoft/vcpkg.git $VCPKG_DIR
 		cd $1
 		sudo -u ${SUDO_USER} ./bootstrap-vcpkg.sh
 		sudo -u ${SUDO_USER} ./vcpkg integrate install
@@ -73,7 +73,7 @@ function install_vcpkg()
 	
 		cd	$1
 		if [[ $(git fetch --dry-run) ]]; then
-			echo "vcpkg changed, updating at $vcpkg_dir ..."
+			echo "vcpkg changed, updating at $VCPKG_DIR ..."
 			sudo -u ${SUDO_USER} git pull
 			sudo -u ${SUDO_USER} ./bootstrap-vcpkg.sh
 			sudo -u ${SUDO_USER} ./vcpkg integrate install
@@ -96,22 +96,21 @@ function vcpkg_install()
 	sudo -u ${SUDO_USER} ./vcpkg install $2
 }
 
-
 # ----------------------------------------------------------------------------------
 
 # Exit if a simple command exits with a non-zero status
 # See http://mywiki.wooledge.org/BashFAQ/105
-trap 'quit 1 "ERROR: script failed in line $LINENO"' ERR
+trap 'quit 1 "ERROR: script failed in line ${LINENO}"' ERR
 
 # Exit here if Effective User ID is not root ID
 if [[ ${EUID} -ne 0 ]]; then
    quit 2 "${0} must be run as root"
 fi
 
-install_compiler $gcc_version
-install_cmake $cmake_dir $cmake_version
+install_compiler ${GCC_VERSION}
+install_cmake ${CMAKE_DIR} ${CMAKE_VERSION}
 install_git
-install_vcpkg $vcpkg_dir
+install_vcpkg ${VCPKG_DIR}
 install_tools
 
-vcpkg_install $vcpkg_dir $vcpkg_modules
+vcpkg_install ${VCPKG_DIR} ${VCPKG_MODULES}
